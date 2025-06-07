@@ -1,0 +1,93 @@
+const usernames = [
+  "blissfullycursed", "seastorm1", "islathewitch", "desperatelyhungry",
+  "chitown33", "sparkie460", "douride2",
+  "shortster", "sueshe", "agape93", "saoirses", "prettypriya",
+  "barryliverstone", "shesrad80", "bricealan", "boggboss", "menina",
+  "provokeesmokee", "nikki1989", "emmamary", "still-alive", "msc545",
+  "lavlavluv", "iron_man", "butterly248", "strateguy632",
+  "mansearching", "goaded", "lazerbean", "haleycatgirl", "being_a_good_indian", "dustybiker2", "jamie05rhs", "maybe_maybe_not", "masterks", "oneviewpoint", "kaneki05", "orion84", "abc3643", "beefcakebradybatson", "twalli", "girlsaskguys", ,"staximus","bricealan","slatyb","classicdropout",
+  "insecurelivesmatter","nik1hil","dudeinohio", "arwen06", "laura_marx", "neonstar2345", "kaneki05", "anon1903", "alwayreckles93", "nirmroth"
+];
+
+const influencers = [
+  "msmissydc", "rachel776", "jessica405", "petitedollbabee",
+  "crimsonangel09", "mzash", "coachtanthony", "jimrsmith", "_maya_",
+  "secretsofkb", "nathandavis", "jennifer_bloom", "olderandwiser",
+  "musicbrain5", "ez-bri-z_v2", "misterwack", "melnc", "beenee",
+  "oliverlogan263", "drygermanguy", "HelpfulWoman", "bcranger10", "summeroflove", "creativewritings", "arrowheadsw","madhatters4", "stevesmith1985"
+];
+
+const editors = [
+  "katherinej", "rolandcuthbert","matchrestore"
+];
+
+const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
+if (!token) {
+  console.error("❌ Verification token not found.");
+} else {
+
+  // Block normal users
+  usernames.forEach(function(username) {
+    fetch("https://www.girlsaskguys.com/user/" + username + "/block", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      body: "__RequestVerificationToken=" + encodeURIComponent(token)
+    })
+    .then(function(response) {
+      return response.text();
+    })
+    .then(function(data) {
+      console.log("✅ Blocked user:", username);
+    })
+    .catch(function(error) {
+      console.error("❌ Error blocking user:", username, error);
+    });
+  });
+
+  // Block influencers
+  influencers.forEach(function(username) {
+    fetch("https://www.girlsaskguys.com/influencer/" + username + "/block", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      body: "__RequestVerificationToken=" + encodeURIComponent(token)
+    })
+    .then(function(response) {
+      return response.text();
+    })
+    .then(function(data) {
+      console.log("✅ Blocked influencer:", username);
+    })
+    .catch(function(error) {
+      console.error("❌ Error blocking influencer:", username, error);
+    });
+  });
+
+  // Block editors
+  editors.forEach(function(username) {
+    fetch("https://www.girlsaskguys.com/editor/" + username + "/block", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      body: "__RequestVerificationToken=" + encodeURIComponent(token)
+    })
+    .then(function(response) {
+      return response.text();
+    })
+    .then(function(data) {
+      console.log("✅ Blocked editor:", username);
+    })
+    .catch(function(error) {
+      console.error("❌ Error blocking editor:", username, error);
+    });
+  });
+
+}
