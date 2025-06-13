@@ -1,0 +1,174 @@
+// ==UserScript==
+// @name         GirlsAskGuys User Management Floater
+// @namespace    http://tampermonkey.net/
+// @version      1.1
+// @description  Adds floating buttons to block or unblock predefined lists of users on GirlsAskGuys.
+// @author       Your Coding Partner
+// @match        https://www.girlsaskguys.com/*
+// @grant        GM_addStyle
+// @run-at       document-idle
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // --- User Data ---
+    // Using a Set to automatically handle duplicates, then converting back to an array.
+    const usernames = [...new Set([
+        "blissfullycursed", "seastorm1", "islathewitch", "desperatelyhungry",
+        "chitown33", "sparkie460", "douride2",
+        "shortster", "sueshe", "agape93", "saoirses", "prettypriya",
+        "barryliverstone", "shesrad80", "bricealan", "boggboss", "menina",
+        "provokeesmokee", "nikki1989", "emmamary", "still-alive", "msc545",
+        "lavlavluv", "iron_man", "butterly248", "strateguy632",
+        "mansearching", "goaded", "lazerbean", "haleycatgirl", "being_a_good_indian", "dustybiker2", "jamie05rhs", "maybe_maybe_not", "masterks", "oneviewpoint", "kaneki05", "orion84", "abc3643", "beefcakebradybatson", "twalli", "girlsaskguys", "staximus", "slatyb", "classicdropout",
+        "insecurelivesmatter", "nik1hil", "dudeinohio", "arwen06", "laura_marx", "neonstar2345", "anon1903", "alwayreckles93", "nirmroth", "abbycado", "pessicajeter", "peterlegg91", "beenherebefore", "bowenw", "josyjosy", "loveslongnails"
+    ])];
+
+    const influencers = [...new Set([
+        "msmissydc", "rachel776", "jessica405", "petitedollbabee",
+        "crimsonangel09", "mzash", "coachtanthony", "jimrsmith", "_maya_",
+        "secretsofkb", "nathandavis", "jennifer_bloom", "olderandwiser",
+        "musicbrain5", "ez-bri-z_v2", "misterwack", "melnc", "beenee",
+        "oliverlogan263", "drygermanguy", "HelpfulWoman", "bcranger10", "summeroflove", "creativewritings", "madhatters4", "stevesmith1985", "cupcakethedestroyer", "hawkperception", "chazmatazz269", "arrowheadsw", "brainsbeforebeauty"
+    ])];
+
+    const editors = [...new Set([
+        "katherinej", "rolandcuthbert", "matchrestore"
+    ])];
+
+
+    /**
+     * A reusable function to perform an action (block or unblock) on a list of users.
+     * @param {string} username - The username to action.
+     * @param {string} userType - The type of user ('user', 'influencer', 'editor').
+     * @param {string} action - The action to perform ('block' or 'unblock').
+     * @param {string} token - The request verification token.
+     */
+    function performAction(username, userType, action, token) {
+        const url = `https://www.girlsaskguys.com/${userType}/${username}/${action}`;
+        const actionPastTense = action === 'block' ? 'Blocked' : 'Unblocked';
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: "__RequestVerificationToken=" + encodeURIComponent(token)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(() => {
+            console.log(`✅ ${actionPastTense} ${userType}:`, username);
+        })
+        .catch(error => {
+            console.error(`❌ Error ${action}ing ${userType}:`, username, error);
+        });
+    }
+
+    /**
+     * Main function to trigger the blocking or unblocking process for all lists.
+     * @param {string} action - The action to perform ('block' or 'unblock').
+     */
+    function processUserLists(action) {
+        const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
+        if (!token) {
+            console.error("❌ Verification token not found. Cannot proceed.");
+            alert("Verification token not found! Are you logged in?");
+            return;
+        }
+
+        console.log(`--- Starting to ${action} all users. ---`);
+
+        // Process normal users
+        usernames.forEach(username => {
+            performAction(username, 'user', action, token);
+        });
+
+        // Process influencers
+        influencers.forEach(username => {
+            performAction(username, 'influencer', action, token);
+        });
+
+        // Process editors
+        editors.forEach(username => {
+            performAction(username, 'editor', action, token);
+        });
+
+        console.log(`--- Finished sending ${action} requests. Check console for details. ---`);
+    }
+
+
+    /**
+     * Creates and injects the floating action buttons onto the page.
+     */
+    function addFloatingButtons() {
+        const buttonContainer = document.createElement('div');
+        buttonContainer.id = 'gag-user-manager';
+
+        buttonContainer.innerHTML = `
+            <button id="block-list-btn" title="Block all users in the list">Block List</button>
+            <button id="unblock-list-btn" title="Unblock all users in the list">Unblock List</button>
+        `;
+
+        document.body.appendChild(buttonContainer);
+
+        // Attach event listeners
+        document.getElementById('block-list-btn').addEventListener('click', () => processUserLists('block'));
+        document.getElementById('unblock-list-btn').addEventListener('click', () => processUserLists('unblock'));
+    }
+
+    /**
+     * Injects the CSS styles for the floating buttons.
+     */
+    function addStyles() {
+        GM_addStyle(`
+            #gag-user-manager {
+                position: fixed;
+                bottom: 10px;
+                left: 10px;
+                z-index: 9999;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+            #gag-user-manager button {
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                cursor: pointer;
+                border-radius: 5px;
+                font-size: 14px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                transition: background-color 0.3s;
+            }
+            #gag-user-manager button:hover {
+                background-color: #0056b3;
+            }
+            #block-list-btn {
+                background-color: #dc3545; /* Red for blocking */
+            }
+            #block-list-btn:hover {
+                background-color: #c82333;
+            }
+            #unblock-list-btn {
+                background-color: #28a745; /* Green for unblocking */
+            }
+            #unblock-list-btn:hover {
+                background-color: #218838;
+            }
+        `);
+    }
+
+    // --- Script Initialization ---
+    addStyles();
+    addFloatingButtons();
+
+})();
