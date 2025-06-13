@@ -14,7 +14,7 @@ const influencers = [
   "crimsonangel09", "mzash", "coachtanthony", "jimrsmith", "_maya_",
   "secretsofkb", "nathandavis", "jennifer_bloom", "olderandwiser",
   "musicbrain5", "ez-bri-z_v2", "misterwack", "melnc", "beenee",
-  "oliverlogan263", "drygermanguy", "HelpfulWoman", "bcranger10", "summeroflove", "creativewritings", "arrowheadsw","madhatters4", "stevesmith1985", "cupcakethedestroyer", "hawkperception", "chazmatazz269", "arrowheadsw", "brainsbeforebeauty"
+  "oliverlogan263", "drygermanguy", "HelpfulWoman", "bcranger10", "summeroflove", "creativewritings", "madhatters4", "stevesmith1985", "cupcakethedestroyer", "hawkperception", "chazmatazz269", "arrowheadsw", "brainsbeforebeauty"
 ];
 
 const editors = [
