@@ -4,7 +4,7 @@
 // @version      1.1
 // @description  Adds floating buttons to block or unblock predefined lists of users on GirlsAskGuys.
 // @author       Your Coding Partner
-// @match        https://www.girlsaskguys.com/*
+// @match        https://www.girlsaskguys.com/
 // @grant        GM_addStyle
 // @run-at       document-idle
 // ==/UserScript==
@@ -22,7 +22,7 @@
         "provokeesmokee", "nikki1989", "emmamary", "still-alive", "msc545",
         "lavlavluv", "iron_man", "butterly248", "strateguy632",
         "mansearching", "goaded", "lazerbean", "haleycatgirl", "being_a_good_indian", "dustybiker2", "jamie05rhs", "maybe_maybe_not", "masterks", "oneviewpoint", "kaneki05", "orion84", "abc3643", "beefcakebradybatson", "twalli", "girlsaskguys", "staximus", "slatyb", "classicdropout",
-        "insecurelivesmatter", "nik1hil", "dudeinohio", "arwen06", "laura_marx", "neonstar2345", "anon1903", "alwayreckles93", "nirmroth", "abbycado", "pessicajeter", "peterlegg91", "beenherebefore", "bowenw", "josyjosy", "loveslongnails"
+        "insecurelivesmatter", "nik1hil", "dudeinohio", "arwen06", "laura_marx", "neonstar2345", "anon1903", "alwayreckles93", "nirmroth", "abbycado", "pessicajeter", "peterlegg91", "beenherebefore", "bowenw", "josyjosy", "loveslongnails", "helpfulwoman", "vivaldi"
     ])];
 
     const influencers = [...new Set([
@@ -30,7 +30,7 @@
         "crimsonangel09", "mzash", "coachtanthony", "jimrsmith", "_maya_",
         "secretsofkb", "nathandavis", "jennifer_bloom", "olderandwiser",
         "musicbrain5", "ez-bri-z_v2", "misterwack", "melnc", "beenee",
-        "oliverlogan263", "drygermanguy", "HelpfulWoman", "bcranger10", "summeroflove", "creativewritings", "madhatters4", "stevesmith1985", "cupcakethedestroyer", "hawkperception", "chazmatazz269", "arrowheadsw", "brainsbeforebeauty"
+        "oliverlogan263", "drygermanguy", "bcranger10", "summeroflove", "creativewritings", "madhatters4", "stevesmith1985", "cupcakethedestroyer", "hawkperception", "chazmatazz269", "arrowheadsw", "brainsbeforebeauty"
     ])];
 
     const editors = [...new Set([
